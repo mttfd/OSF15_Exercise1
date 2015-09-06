@@ -22,7 +22,12 @@ bool parse_user_input (const char* input, Commands_t** cmd) {
 
 	//TODO ERROR CHECK INCOMING PARAMETERS
 	if(input == NULL) {
-		perror("input command is empty.");
+		perror("input command is empty.\n");
+		return false;
+	}
+
+	if(cmd == NULL) {
+		perror("cmd is null\n");
 		return false;
 	}
 
