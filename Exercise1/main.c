@@ -43,7 +43,7 @@ int main (int argc, char **argv) {
 		printf("failed to creates matrix.\n");
 		return -1;
 	} // TODO ERROR CHECK
-	if(add_matrix_to_array(mats,temp, 10) > 10) {
+	if(add_matrix_to_array(mats,temp, 10) == -1) {
 		printf("failed to add matrix to array.\n");
 		return -1;
 	} //TODO ERROR CHECK NEEDED
@@ -149,7 +149,8 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 					return;
 				} //TODO ERROR CHECK NEEDED
 				if(add_matrix_to_array(mats,dup_mat,num_mats) == -1) {
-
+					printf("failed to add matrix to array.\n");
+					return;
 				} //TODO ERROR CHECK NEEDED
 				printf ("Duplication of %s into %s finished\n", mats[mat1_idx]->name, cmd->cmds[2]);
 		}
@@ -200,7 +201,10 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 			return;
 		}
 
-		add_matrix_to_array(mats,new_matrix, num_mats); //TODO ERROR CHECK NEEDED
+		if(add_matrix_to_array(mats,new_matrix, num_mats)) {
+			printf("failed to add matrix to array.\n");
+			return;
+		} //TODO ERROR CHECK NEEDED
 		printf("Matrix (%s) is read from the filesystem\n", cmd->cmds[1]);
 	}
 	else if (strncmp(cmd->cmds[0],"write",strlen("write") + 1) == 0
@@ -224,7 +228,10 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 			printf("failed to create matrix.\n");
 			return;
 		} //TODO ERROR CHECK NEEDED
-		add_matrix_to_array(mats,new_mat,num_mats); // TODO ERROR CHECK NEEDED
+		if(add_matrix_to_array(mats,new_mat,num_mats) == -1) {
+			printf("failed to add matrix to array.\n");
+			return;
+		} // TODO ERROR CHECK NEEDED
 		printf("Created Matrix (%s,%u,%u)\n", new_mat->name, new_mat->rows, new_mat->cols);
 	}
 	else if (strncmp(cmd->cmds[0], "random", strlen("random") + 1) == 0
@@ -265,24 +272,38 @@ unsigned int find_matrix_given_name (Matrix_t** mats, unsigned int num_mats, con
 	//TODO ERROR CHECK INCOMING PARAMETERS
 	if(mats == NULL || target == NULL) {
 		printf("NULL pointers get passed in.\n");
-		return num_mats + 1;
+		return -1;
 	}
 
-
 	for (int i = 0; i < num_mats; ++i) {
-		printf("Asdasdasd\n");
-		if (strncmp(mats[i]->name,target,strlen(mats[i]->name)) == 0) {
-			return i;
+		if(mats[i]->name) {
+			if (strncmp(mats[i]->name,target,strlen(mats[i]->name)) == 0) {
+				return i;
+			}
 		}
 	}
 
-	return num_mats + 1;
+	return -1;
 }
 
 	//TODO FUNCTION COMMENT
+/*
+ * PURPOSE: free remaining heap allocations - matrices
+ * INPUTS:
+ *	mats the array of matrices
+ *	num_mats the max length of the array
+ * RETURN:
+ *  no returned value
+ *
+ **/
 void destroy_remaining_heap_allocations(Matrix_t **mats, unsigned int num_mats) {
 
 	//TODO ERROR CHECK INCOMING PARAMETERS
-
+	if(!mats) return;
 	// COMPLETE MISSING MEMORY CLEARING HERE
+	for(int i = 0; i < num_mats; i++) {
+		if(mats[i]) {
+			destroy_matrix(&mats[i]);
+		}
+	}
 }

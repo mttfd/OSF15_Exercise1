@@ -80,7 +80,7 @@ void destroy_matrix (Matrix_t** m) {
 
 	//TODO ERROR CHECK INCOMING PARAMETERS
 	if(m == NULL || *m == NULL) {
-		perror("NULL pointers.\n");
+		printf("NULL pointers.\n");
 		return;
 	}
 
@@ -132,12 +132,12 @@ bool duplicate_matrix (Matrix_t* src, Matrix_t* dest) {
 
 	//TODO ERROR CHECK INCOMING PARAMETERS
 	if(src == NULL || dest == NULL) {
-		perror("NULL pointers get passed in.\n");
+		printf("NULL pointers get passed in.\n");
 		return false;
 	}
 
 	if(src->cols < 0 || src->rows < 0) {
-		perror("invalid source matrix.\n");
+		printf("invalid source matrix.\n");
 		return false;
 	}
 
@@ -169,12 +169,12 @@ bool bitwise_shift_matrix (Matrix_t* a, char direction, unsigned int shift) {
 	//TODO ERROR CHECK INCOMING PARAMETERS
 
 	if(direction != 'l' || direction != 'r') {
-		perror("invalid direction.\n");
+		printf("invalid direction.\n");
 		return false;
 	}
 
 	if(shift < 0 || shift > UINT_MAX) {
-		perror("shift is not in range.\n");
+		printf("shift is not in range.\n");
 		return false;
 	}
 
@@ -220,12 +220,12 @@ bool add_matrices (Matrix_t* a, Matrix_t* b, Matrix_t* c) {
 
 	//TODO ERROR CHECK INCOMING PARAMETERS
 	if(a == NULL || b == NULL || c == NULL) {
-		perror("NULL pointers get passed in.\n");
+		printf("NULL pointers get passed in.\n");
 		return false;
 	}
 
 	if(!a->rows || !a->cols || !b->rows || !b->cols) {
-		perror("invalid source matrices.\n");
+		printf("invalid source matrices.\n");
 		return false;
 	}
 
@@ -254,12 +254,12 @@ void display_matrix (Matrix_t* m) {
 
 	//TODO ERROR CHECK INCOMING PARAMETERS
 	if(m == NULL) {
-		perror("NULL pointer get passed in.\n");
+		printf("NULL pointer get passed in.\n");
 		return;
 	}
 
 	if(!m->rows || !m->cols || !m->name || !m->data) {
-		perror("invalid matrix.\n");
+		printf("invalid matrix.\n");
 		return;
 	}
 
@@ -581,7 +581,7 @@ unsigned int add_matrix_to_array (Matrix_t** mats, Matrix_t* new_matrix, unsigne
 	//TODO ERROR CHECK INCOMING PARAMETERS
 	if(mats == NULL || new_matrix == NULL) {
 		printf("NULL pointers get passed in.\n");
-		return num_mats+10;
+		return -1;
 	}
 	static long int current_position = 0;
 	const long int pos = current_position % num_mats;

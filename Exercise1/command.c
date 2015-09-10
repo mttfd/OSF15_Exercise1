@@ -22,12 +22,12 @@ bool parse_user_input (const char* input, Commands_t** cmd) {
 
 	//TODO ERROR CHECK INCOMING PARAMETERS
 	if(input == NULL) {
-		perror("input command is empty.\n");
+		printf("input command is empty.\n");
 		return false;
 	}
 
 	if(cmd == NULL) {
-		perror("cmd is null\n");
+		printf("cmd is null\n");
 		return false;
 	}
 
@@ -68,12 +68,12 @@ void destroy_commands(Commands_t** cmd) {
 
 	//TODO ERROR CHECK INCOMING PARAMETERS
 	if(cmd == NULL || *cmd == NULL) {
-		perror("cmd is null\n");
+		printf("cmd is null\n");
 		return;
 	}
 
 	if((*cmd)->num_cmds > MAX_CMD_COUNT) {
-		perror("invalid command to be destroyed\n");
+		printf("invalid command to be destroyed\n");
 		return;
 	}
 
