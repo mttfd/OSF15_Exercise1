@@ -201,7 +201,7 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 			return;
 		}
 
-		if(add_matrix_to_array(mats,new_matrix, num_mats)) {
+		if(add_matrix_to_array(mats,new_matrix, num_mats) == -1) {
 			printf("failed to add matrix to array.\n");
 			return;
 		} //TODO ERROR CHECK NEEDED

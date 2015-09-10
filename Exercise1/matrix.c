@@ -167,7 +167,7 @@ bool duplicate_matrix (Matrix_t* src, Matrix_t* dest) {
 bool bitwise_shift_matrix (Matrix_t* a, char direction, unsigned int shift) {
 
 	//TODO ERROR CHECK INCOMING PARAMETERS
-
+	printf("%c\n", direction);
 	if(direction != 'l' || direction != 'r') {
 		printf("invalid direction.\n");
 		return false;
