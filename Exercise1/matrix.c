@@ -167,8 +167,8 @@ bool duplicate_matrix (Matrix_t* src, Matrix_t* dest) {
 bool bitwise_shift_matrix (Matrix_t* a, char direction, unsigned int shift) {
 
 	//TODO ERROR CHECK INCOMING PARAMETERS
-	printf("%c\n", direction);
-	if(direction != 'l' || direction != 'r') {
+
+	if(direction != 'l' && direction != 'r') {
 		printf("invalid direction.\n");
 		return false;
 	}
@@ -179,6 +179,7 @@ bool bitwise_shift_matrix (Matrix_t* a, char direction, unsigned int shift) {
 	}
 
 	if (!a) {
+		printf("NULL pointer gets passed in.\n");
 		return false;
 	}
 
@@ -289,7 +290,7 @@ bool read_matrix (const char* matrix_input_filename, Matrix_t** m) {
 
 	//TODO ERROR CHECK INCOMING PARAMETERS
 	if(matrix_input_filename == NULL) {
-		printf("NULL pointer get passed in.\n");
+		printf("NULL pointer gets passed in.\n");
 		return false;
 	}
 
@@ -557,10 +558,13 @@ void load_matrix (Matrix_t* m, unsigned int* data) {
 		return;
 	}
 
+
 	if(!m -> data || !m->rows || !m->cols) {
 		printf("invalid matrix.\n");
 		return;
 	}
+
+
 
 	memcpy(m->data,data,m->rows * m->cols * sizeof(unsigned int));
 }
@@ -583,10 +587,18 @@ unsigned int add_matrix_to_array (Matrix_t** mats, Matrix_t* new_matrix, unsigne
 		printf("NULL pointers get passed in.\n");
 		return -1;
 	}
+
+	if(num_mats < 0 || num_mats > UINT_MAX) {
+		printf("number of matrices is not in range\n");
+		return -1;
+	}
+
+
 	static long int current_position = 0;
 	const long int pos = current_position % num_mats;
 	if ( mats[pos] ) {
 		destroy_matrix(&mats[pos]);
+		printf("some matrix has been destroyed!\n");
 	}
 	mats[pos] = new_matrix;
 	current_position++;

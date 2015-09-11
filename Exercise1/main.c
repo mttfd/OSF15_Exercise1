@@ -98,6 +98,11 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 		return;
 	}
 
+	if(num_mats < 0 || num_mats > UINT_MAX) {
+		printf("number of matrices is not in range\n");
+		return;
+	}
+
 	/*Parsing and calling of commands*/
 	if (strncmp(cmd->cmds[0],"display",strlen("display") + 1) == 0
 		&& cmd->num_cmds == 2) {
@@ -115,6 +120,10 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 		&& cmd->num_cmds == 4) {
 			int mat1_idx = find_matrix_given_name(mats,num_mats,cmd->cmds[1]);
 			int mat2_idx = find_matrix_given_name(mats,num_mats,cmd->cmds[2]);
+
+			int mat3_idx = find_matrix_given_name(mats, num_mats, cmd->cmds[3]);
+			if(mat3_idx >= 0) destroy_matrix(&mats[mat3_idx]);
+
 			if (mat1_idx >= 0 && mat2_idx >= 0) {
 				Matrix_t* c = NULL;
 				if( !create_matrix (&c,cmd->cmds[3], mats[mat1_idx]->rows,
@@ -133,11 +142,18 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 					printf("Failure to add %s with %s into %s\n", mats[mat1_idx]->name, mats[mat2_idx]->name,c->name);
 					return;
 				}
+			} else {
+				printf("matrix/matrices not found.\n");
+				return;
 			}
 	}
 	else if (strncmp(cmd->cmds[0],"duplicate",strlen("duplicate") + 1) == 0
 		&& cmd->num_cmds == 3 && strlen(cmd->cmds[1]) + 1 <= MATRIX_NAME_LEN) {
 		int mat1_idx = find_matrix_given_name(mats,num_mats,cmd->cmds[1]);
+		//if the matrix with the same dest name already exists, then destroys it
+		int mat2_idx = find_matrix_given_name(mats,num_mats,cmd->cmds[2]);
+		if(mat2_idx >= 0) destroy_matrix(&mats[mat2_idx]);
+
 		if (mat1_idx >= 0 ) {
 				Matrix_t* dup_mat = NULL;
 				if( !create_matrix (&dup_mat,cmd->cmds[2], mats[mat1_idx]->rows,
@@ -160,7 +176,7 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 		}
 	}
 	else if (strncmp(cmd->cmds[0],"equal",strlen("equal") + 1) == 0
-		&& cmd->num_cmds == 2) {
+		&& cmd->num_cmds == 3) {
 			int mat1_idx = find_matrix_given_name(mats,num_mats,cmd->cmds[1]);
 			int mat2_idx = find_matrix_given_name(mats,num_mats,cmd->cmds[2]);
 			if (mat1_idx >= 0 && mat2_idx >= 0) {
@@ -275,9 +291,15 @@ unsigned int find_matrix_given_name (Matrix_t** mats, unsigned int num_mats, con
 		return -1;
 	}
 
+	if(num_mats < 0 || num_mats > UINT_MAX) {
+		printf("number of matrices is not in range\n");
+		return -1;
+	}
+
 	for (int i = 0; i < num_mats; ++i) {
 		if(mats[i]->name) {
-			if (strncmp(mats[i]->name,target,strlen(mats[i]->name)) == 0) {
+			//should use the strcmp
+			if (strcmp(mats[i]->name,target) == 0) {
 				return i;
 			}
 		}
