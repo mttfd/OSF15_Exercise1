@@ -132,16 +132,16 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 					return;
 				}
 
+				if (! add_matrices(mats[mat1_idx], mats[mat2_idx],c) ) {
+					printf("Failure to add %s with %s into %s\n", mats[mat1_idx]->name, mats[mat2_idx]->name,c->name);
+					destroy_matrix(&c);
+					return;
+				}
+
 				if(add_matrix_to_array(mats,c, num_mats) == -1) {
 					printf("failed to add matrix to the array.\n");
 					return;
 				} //TODO ERROR CHECK NEEDED
-
-
-				if (! add_matrices(mats[mat1_idx], mats[mat2_idx],c) ) {
-					printf("Failure to add %s with %s into %s\n", mats[mat1_idx]->name, mats[mat2_idx]->name,c->name);
-					return;
-				}
 			} else {
 				printf("matrix/matrices not found.\n");
 				return;
@@ -162,6 +162,7 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 				}
 				if(!duplicate_matrix (mats[mat1_idx], dup_mat)) {
 					printf("failed to duplicate matrix.\n");
+					destroy_matrix(&dup_mat);
 					return;
 				} //TODO ERROR CHECK NEEDED
 				if(add_matrix_to_array(mats,dup_mat,num_mats) == -1) {
