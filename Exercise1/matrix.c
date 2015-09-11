@@ -230,7 +230,8 @@ bool add_matrices (Matrix_t* a, Matrix_t* b, Matrix_t* c) {
 		return false;
 	}
 
-	if (a->rows != b->rows && a->cols != b->cols) {
+	if (a->rows != b->rows || a->cols != b->cols) {
+		printf("can't add two matrices with different number of cols/rows.\n");
 		return false;
 	}
 
