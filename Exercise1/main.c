@@ -122,7 +122,7 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 			int mat2_idx = find_matrix_given_name(mats,num_mats,cmd->cmds[2]);
 
 			int mat3_idx = find_matrix_given_name(mats, num_mats, cmd->cmds[3]);
-			if(mat3_idx >= 0) destroy_matrix(&mats[mat3_idx]);
+
 
 			if (mat1_idx >= 0 && mat2_idx >= 0) {
 				Matrix_t* c = NULL;
@@ -142,6 +142,8 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 					printf("failed to add matrix to the array.\n");
 					return;
 				} //TODO ERROR CHECK NEEDED
+
+				if(mat3_idx >= 0) destroy_matrix(&mats[mat3_idx]);
 			} else {
 				printf("matrix/matrices not found.\n");
 				return;
@@ -152,7 +154,7 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 		int mat1_idx = find_matrix_given_name(mats,num_mats,cmd->cmds[1]);
 		//if the matrix with the same dest name already exists, then destroys it
 		int mat2_idx = find_matrix_given_name(mats,num_mats,cmd->cmds[2]);
-		if(mat2_idx >= 0) destroy_matrix(&mats[mat2_idx]);
+
 
 		if (mat1_idx >= 0 ) {
 				Matrix_t* dup_mat = NULL;
@@ -169,6 +171,7 @@ void run_commands (Commands_t* cmd, Matrix_t** mats, unsigned int num_mats) {
 					printf("failed to add matrix to array.\n");
 					return;
 				} //TODO ERROR CHECK NEEDED
+				if(mat2_idx >= 0) destroy_matrix(&mats[mat2_idx]);
 				printf ("Duplication of %s into %s finished\n", mats[mat1_idx]->name, cmd->cmds[2]);
 		}
 		else {
